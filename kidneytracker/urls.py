@@ -5,11 +5,11 @@ from .views import editEntryPageView, dashboardPageView, submitEditLogPageView, 
 
 urlpatterns = [
   path("dashboard/<int:userID>", dashboardPageView, name='dashboard'),
-  path("deleteEntry/<int:entryID>/<int:returnID>", deleteEntryPageView, name="deleteEntry"),
+  path("deleteEntry/<int:entryID>/<int:returnID>/<int:userID>", deleteEntryPageView, name="deleteEntry"),
   path("submitNewEntry/", submitNewEntryPageView, name="submitNewEntry"),
   path("newEntry/<int:mealID>", newEntryPageView, name="newEntry"),
   path("submitEditEntry/", submitEditEntryPageView, name="submitEditEntry"),
-  path("editEntry/<int:entryID>/<int:returnID>", editEntryPageView, name ="editEntry"),
+  path("editEntry/<int:entryID>/<int:returnID>/<int:userID>", editEntryPageView, name ="editEntry"),
   path("viewEntry/<int:entryID>/<int:userID>", viewEntryPageView, name="viewEntry"),
   path("deleteLog/<int:entryID>/<int:userID>", deleteLogPageView, name="deleteLog"),
   path("submitEditLog/", submitEditLogPageView, name="submitEditLog"),

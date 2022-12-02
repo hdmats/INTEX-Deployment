@@ -22,8 +22,8 @@
           <tr>
               <td>{{entry.food}}</td>
               <td>{{entry.measurement}}</td>
-              <td><a class="button" href="{% url 'editEntry' entryID=entry.id returnID=entryID%}">Edit</a></td>
-              <td><a class="button" href="{% url 'deleteEntry' entryID=entry.id returnID=entryID%}">Delete</a></td>
+              <td><a class="button" href="{% url 'editEntry' entryID=entry.id returnID=entryID userID=userID%}">Edit</a></td>
+              <td><a class="button" href="{% url 'deleteEntry' entryID=entry.id returnID=entryID userID=userID%}">Delete</a></td>
           </tr>
           {% endfor %}
       </tbody>

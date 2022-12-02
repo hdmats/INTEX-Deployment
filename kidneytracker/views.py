@@ -164,17 +164,19 @@ def viewEntryPageView(request, entryID, userID):
 
   return render(request, "kidneytracker/viewMeal.html", context)
 
-def editEntryPageView(request, entryID, returnID):
+def editEntryPageView(request, entryID, returnID, userID):
     entry = nutrient.objects.get(id=entryID)
     context = {
     "entry" : entry,
     "entryID" : entryID,
-    "returnID" : returnID
+    "returnID" : returnID,
+    "userID" : userID
     }
     return render(request, "kidneytracker/editEntry.html", context)
 
 def submitEditEntryPageView(request):
   returnID = request.POST['returnID']
+  userID = request.POST['userID']
   entryID = request.POST['entryID'] 
   Entry = nutrient.objects.get(id=entryID)
 
@@ -188,7 +190,7 @@ def submitEditEntryPageView(request):
 
   Entry.save()
 
-  return viewEntryPageView(request, returnID)
+  return viewEntryPageView(request, returnID, userID)
 
 def newEntryPageView(request, mealID):
   context = {
@@ -198,8 +200,9 @@ def newEntryPageView(request, mealID):
   return render(request, "kidneytracker/newEntry.html", context)
 
 def submitNewEntryPageView(request):
-  mealID = request.POST['mealID']
-  
+  entryID = request.POST['mealID']
+  userID = journal_entry.objects.get(id=entryID)
+  userID = userID.user_id
   Entry = nutrient()
 
   Entry.food = request.POST['food']
@@ -211,16 +214,15 @@ def submitNewEntryPageView(request):
   Entry.sodium = request.POST['na']
   
   Entry.save()
-  meal = journal_entry.objects.get(id=mealID)
+  meal = journal_entry.objects.get(id=entryID)
   meal.nutrients.add(Entry)
 
-  return viewEntryPageView(request, mealID)
+  return viewEntryPageView(request, entryID, userID)
 
-def deleteEntryPageView(request, entryID, returnID):
+def deleteEntryPageView(request, entryID, returnID, userID):
   data = nutrient.objects.get(id=entryID)
-
   data.delete()
-  return viewEntryPageView(request, returnID)
+  return viewEntryPageView(request, returnID, userID)
 
 def dashboardPageView(request, userID):
   sodiumData = nutrient.objects.filter(journal_entry__meal_date = date.today(), journal_entry__user_id=userID).exclude(sodium=0)
