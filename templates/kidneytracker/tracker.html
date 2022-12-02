@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Tracker</title>
+{% endblock %}
+
+{% block content %}
+
+  <h1>Kidney Tracker</h1>
+  <h2>Welcome {{user.first_name}} {{user.last_name}}!</h2>
+<div class="container">
+  <input type="hidden" id="userID" name="userID" value="{{userID}}">
+</div>
+<div class="facttrack">
+  <div>
+    <a class="button logbutton" href="{% url 'userInfo' userID=userID%}">User Info</a>
+    <a class="button logbutton" href="{% url 'viewLog' userID=userID%}">Log</a>
+    <a class="button logbutton" href="{% url 'dashboard' userID=userID%}">DashBoard</a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Review</title>
+{% endblock %}
+
+{% block content %}
+<h1>User Info Review</h1>
+<form style="grid-template-columns: .5fr .5fr;" name="form" action="{% url 'tracker' %}" method='GET'>
+  <input type="hidden" id="UserID" name="UserID" value="{{User.id}}">
+  <h3 style="padding-bottom:1rem;">User Created Sucessfully!</h3>
+  <h3 style="padding-bottom:1rem; color:#383D3F; font-weight:bold;">USER ID: {{User.id}}</h3>
+  <p>First Name: {{User.first_name}}</p>
+  <p>Last Name: {{User.last_name}}</p>
+  <p>Gender: {{User.gender}}</p>
+  <p>Height: {{User.height}}</p>
+  <p>Weight: {{User.weight}}</p>
+  <p>Age: {{User.age}}</p>
+  <p>Condition: {{User.condition}}</p>
+  <p>Potassium: {{User.k}}</p>
+  <p>Phosphorus: {{User.phos}}</p>
+  <p>Sodium: {{User.sodium}}</p>
+  <p>Creatinine: {{User.creatinine}}</p>
+  <p>Albumin: {{User.albumin}}</p>
+  <p>Blood Sugar: {{User.bloodsugar}}</p>
+  <br>
+  <button class="button" type='submit'>Continue</button>
+</form>
+<div class="factreview"></div>
+{% endblock %}

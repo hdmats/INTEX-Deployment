@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Edit Entry</title>
+{% endblock %}
+
+{% block content %}
+<h1>Edit Food Journal Entry</h1>
+  <form action="{% url 'submitEditEntry' %}" method="POST">
+    {% csrf_token %}
+      <input type="hidden" id="returnID" name="returnID" value="{{returnID}}">
+      <input type="hidden" id="entryID" name="entryID" value="{{entryID}}">
+      <h2>Food</h2>
+      <br>
+      <label for="food">Food</label>
+      <input type="text" name="food" value="{{entry.food}}">
+      <label for="measurement">Measurement</label>
+      <input type="text" name="measurement" value="{{entry.measurement}}">
+      <h2>Nutrition</h2>
+      <br>
+      <label for="k">Potassium(mg)</label>
+      <input type="integer" name="k" step="1" value="{{entry.k}}">
+      <label for="phos">Phosphorus(mg)</label>
+      <input type="integer" name="phos" step="1" value="{{entry.phos}}">
+      <label for="protein">Protein(g)</label>
+      <input type="integer" name="protein" step="any" value="{{entry.protein}}">
+      <label for="water">Water(ml)</label>
+      <input type="integer" name="water" step="any" value="{{entry.water}}">
+      <label for="na">Sodium(mg)</label>
+      <input type="integer" name="na" step="1" value="{{entry.sodium}}">
+    </fieldset>
+    <button class="button" type="submit">Save</button>
+  </form>
+  <div class="factlog"></div>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Index</title>
+{% endblock %}
+{% block content %}
+<div>
+  <div>
+    <div class="hero-text">
+      <h1>Welcome to Kidney Tracker!</h1>
+      <a class='button' href="{% url 'login' %}">LOGIN</a>
+    </div>
+    <img class="hero-image" src={% static 'img/HOME.jpg' %} alt="..." />
+  </div>
+  <div class="fact">
+    <h1 class ='runner'>80% of what you eat determines your overall health</h1>
+  </div>
+
+  
+    <div class="fact3">
+      <div class="card">
+        <div class="content">
+          <div class="front">
+            Fact #1
+          </div>
+          <div class="back">
+            In America, there are 37 million persons with CKD, and millions more are at greater risk.
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="content">
+          <div class="front">
+            Fact #2
+          </div>
+          <div class="back">
+            The development of renal disease to kidney failure can be stopped with early identification.
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="content">
+          <div class="front">
+            Fact #3
+          </div>
+          <div class="back">
+            Learning what nutrients your body needs goes a long way to help maintain healthy kidneys.
+          </div>
+        </div>
+      </div>
+    </div>
+  
+
+
+  <div class="fact2">
+    <h1 class="runner2"> Take control of your kidney health!</h1>
+    <ul class="runner22">
+      <h2>Follow these steps to get started:</h2>
+      <li>
+        <h3>Create a profile</h3>
+      </li>
+      <li>
+        <h3>Input your meals in your journal</h3>
+      </li>
+      <li>
+        <h3>Receive personalized recommendations based on your food intake</h3>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>View Log</title>
+{% endblock %}
+
+{% block content %}
+  <h1>Daily Nutrition Log</h1>
+  <div class="table">
+    <table class='table'>
+      <thead>
+          <tr>
+              <td>Date</td>
+              <td>Meal</td>
+              <td></td>
+              <td></td>
+              <td></td>
+          </tr>
+      </thead>
+      <tbody>
+          {% for entry in log %}
+          <tr>
+              <td>{{entry.meal_date}}</td>
+              <td>{{entry.meal_type}}</td>
+              <td><a class="button" href="{% url 'viewEntry' entryID=entry.id userID=entry.user_id%}">Entries</a></td>
+              <td><a class="button" href="{% url 'editLog' entryID=entry.id%}">Edit</a></td>
+              <td><a class="button" href="{% url 'deleteLog' entryID=entry.id userID=entry.user_id%}">Delete</a></td>
+          </tr>
+          {% endfor %}
+          
+      </tbody>
+    </table>
+    <div class="log">
+      <a class="button tablebutton" href="{% url 'addLog' userID=userID %}">New Log</a>
+      <a class="button tablebutton" href="{% url 'returnTracker' userID=userID %}">Previous</a>
+      <p><i>click on entries to add food to your meal</i></p>
+    </div>
+  </div>
+  <div class="factlog"></div>
+{% endblock %}

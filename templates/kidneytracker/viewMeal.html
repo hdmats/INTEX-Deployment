@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>View Meal</title>
+{% endblock %}
+
+{% block content %}
+  <h1>{{log.meal_type}} {{log.meal_date}}</h1>
+  <div class="table">
+    <table class='table'>
+      <thead>
+          <tr>
+              <td>Food</td>
+              <td>Measurement</td>
+              <td></td>
+              <td></td>
+          </tr>
+      </thead>
+      <tbody>
+          {% for entry in meal %}
+          <tr>
+              <td>{{entry.food}}</td>
+              <td>{{entry.measurement}}</td>
+              <td><a class="button" href="{% url 'editEntry' entryID=entry.id returnID=entryID%}">Edit</a></td>
+              <td><a class="button" href="{% url 'deleteEntry' entryID=entry.id returnID=entryID%}">Delete</a></td>
+          </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+    <div class="log">
+      <a class="button tablebutton" href="{% url 'newEntry' mealID=entryID %}">New Entry</a>
+      <a class="button tablebutton" href="{% url 'viewLog' userID=userID %}">Previous</a>
+    </div>
+  </div>
+  <div class="factlog"></div>
+{% endblock %}

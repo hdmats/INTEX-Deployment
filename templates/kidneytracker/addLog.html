@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Add Log</title>
+{% endblock %}
+
+{% block content %}
+<h1>Add Food Log</h1>
+  <form style="margin-left:20rem; margin-right:20rem;" action="{% url 'submitAddLog' %}" method="POST">
+    {% csrf_token %}
+      <input type="hidden" id="userID" name="userID" value="{{userID}}">
+      <label for="meal_date">Date</label>
+      <input type="date" name="meal_date">
+      <label for="meal_type">Meal Type</label>
+      <select name="meal_type" id="meal_type">
+        <option value="Breakfast">Breakfast</option>
+        <option value="Lunch">Lunch</option>
+        <option value="Dinner">Dinner</option>
+        <option value="Snack">Snack</option>
+      </select>
+    <button class="button" type="submit">Add</button>
+  </form>
+  <div class="factlog"></div>
+{% endblock %}

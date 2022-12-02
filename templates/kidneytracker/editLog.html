@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Add Log</title>
+{% endblock %}
+
+{% block content %}
+<h1>Edit Food Journal Entry</h1>
+  <form style="margin-left:20rem; margin-right:20rem;" action="{% url 'submitEditLog' %}" method="POST">
+    {% csrf_token %}
+      <input type="hidden" id="userID" name="userID" value="{{log.user_id}}">
+      <input type="hidden" id="entryID" name="entryID" value="{{log.id}}">
+      <label for="meal_date">Date</label>
+      <input type="date" name="meal_date" value="{{log.meal_date|date:'Y-m-d'}}">
+      <label for="meal_type">Meal Type</label>
+      <select name="meal_type" id="meal_type">
+        <option value="Breakfast" {% if log.meal_type == "Breakfast" %} selected="selected" {% endif %}>Breakfast</option>
+        <option value="Lunch" {% if log.meal_type == "Lunch" %} selected="selected" {% endif %}>Lunch</option>
+        <option value="Dinner" {% if log.meal_type == "Dinner" %} selected="selected" {% endif %}>Dinner</option>
+        <option value="Snack" {% if log.meal_type == "Snack" %} selected="selected" {% endif %}>Snack</option>
+      </select>
+    <button class="button" type="submit">Edit</button>
+  </form>
+  <div class="factlog"></div>
+{% endblock %}

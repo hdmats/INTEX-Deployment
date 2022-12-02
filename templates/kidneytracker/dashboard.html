@@ -1,0 +1,309 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Dashboard</title>
+{% endblock %}
+
+{% block content %}
+<h1>Dashboard</h1>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<!--SODIUM CHART-->
+<div style="margin-left:5rem; margin-right:5rem;">
+  <div>
+    <div class="water">
+      <div>
+        <h2>Water Intake Progress</h2>
+        <div class="circle">
+          <div class="circular-progress">
+            <div class="value-container">0%</div>
+          </div>
+        </div>
+        {% if totalWater > waterLimit %}
+          <p>You are over the recommended amount of water intake for today</p>
+        {% elif totalWater < waterLimit %}
+          <p>Your are under the recommended amount of water intake for today</p>
+          <p>The recommended water for you is {{waterMessage}} L/day</p>
+        {% else %}
+          <p>You have meet your water intake for the day</p>
+        {% endif %}
+      </div>
+    </div>
+    <div class="dashboard">
+      <div>
+        <canvas id="sodium"></canvas>
+        {% if totalSodium > 2300 %}
+          <p>Your sodium levels are high today</p>
+          <p>To lower sodium levels, try eating foods like:</p>
+          <ul>
+            <li>Fresh fruits</li>
+            <li>Fresh vegetables (avoid, peas, corn, and beans)</li>
+            <li>Whole grain rice or pasta</li>
+          </ul>
+        {% elif totalSodium < 1495 %}
+          <p>Your sodium levels are low today</p>
+          <p>To increase sodium levels, try eating foods like:</p>
+          <ul>
+            <li>Breads and rolls</li>
+            <li>Pizza</li>
+            <li>Cold cuts and cured meats</li>
+            <li>Soups</li>
+            <li>Burritos and tacos</li>
+          </ul>
+        {% else %}
+          <p>You are within the normal range of sodium for the day</p>
+        {% endif %}
+      </div>
+      <div>
+        <canvas id="protein" ></canvas>
+        {% if totalProtein > proteinLimit %}
+          <p>Your protein levels are high</p>
+          <p>To lower protein levels, try eating foods like:</p>
+          <ul>
+            <li>All fruits except dried fruits</li>
+            <li>All vegetables except peas, corn and beans</li>
+            <li>Healthy fats like avocado</li>
+          </ul>
+        {% elif totalProtein < proteinLimit%}
+        <p>Your protein levels are low</p>
+        <p>To increase protein levels, try eating foods like:</p>
+        <ul>
+          <li>Meat, poultry, fish</li>
+          <li>Eggs</li>
+          <li>Dairy foods</li>
+          <li>Beans, lentils, nuts</li>
+          <li>Soy foods such as tofu</li>
+          <li>Gelatin</li>
+          <li>Nuts, nut-butters and seeds</li>
+        </ul>
+        {% else %}
+          <p>Your protein levels are normal</p>
+        {% endif %}
+      </div>
+      <div>
+        <canvas id="potassium" ></canvas>
+        {% if totalPotassium > 3000 %}
+          <p>Your potassium levels are high</p>
+          <p>To lower potassium levels, try eating foods like:</p>
+          <ul>
+            <li>Fresh fruits(Apples, Peaches)</li>
+            <li>Fresh vegetables (carrots and green beans)</li>
+            <li>White bread or pasta</li>
+            <li>White rice</li>
+            <li>Rice milk (not enriched)</li>
+            <li>Cooked rice, wheat cereals and grits</li>
+            <li>Fresh fruit juices(Cranberry, apple, grape)</li>
+          </ul>
+        {% elif totalPotassium < 1000 %}
+          <p>Your potassium levels are low</p>
+          <p>To increase potassium levels, try eating foods like:</p>
+          <ul>
+            <li>Fresh fruits(Oranges, bananas)</li>
+            <li>Fresh vegetables (Tomatoes)</li>
+            <li>Bran cereals</li>
+            <li>Dairy foods</li>
+            <li>Brown and wild rice</li>
+            <li>Whole-wheat bread and pasta</li>
+            <li>Beans and nuts</li>
+            <li>Fresh fruit juices(Orange)</li>
+          </ul>
+        {% else %}
+          <p>You are within the normal range of sodium</p>
+        {% endif %}
+      </div>
+      <div>
+        <canvas id="phosphorus" ></canvas>
+        {% if totalPhosphorus > 1000 %}
+          <p>Your phosphorus levels are high today</p>
+          <p>To lower phosphorus levels, try eating foods like:</p>
+          <ul>
+            <li>Fresh fruits and veggies</li>
+            <li>Breads, pasta, rice</li>
+            <li>Rice milk (not enriched)</li>
+            <li>Corn and rice cereals</li>
+            <li>Light-colored sodas, such as lemon-lime or iced tea</li>
+          </ul>
+        {% elif totalPhosphorus < 800 %}
+          <p>Your phosphorus levels are low</p>
+          <p>To increase phosphorus levels, try eating foods like:</p>
+          <ul>
+            <li>Meat, poultry, fish</li>
+            <li>Bran cereals and oatmeal</li>
+            <li>Dairy foods</li>
+            <li>Beans, lentils, nuts</li>
+            <li>Dark-colored sodas or fruit punch</li>
+          </ul>
+        {% else %}
+          <p>You are within the normal range of sodium</p>
+        {% endif %}
+      </div>
+      
+
+      <script>
+        const sodium = document.getElementById('sodium').getContext('2d');
+        const sodium1 = new Chart(sodium, {
+          type: 'bar',
+          data: {
+            labels: [{% for data in sodiumData %} '{{data.food}} {{data.measurement}}', {% endfor %}],
+            datasets: [{
+              label: "Today's Sodium Intake",
+              data:  [{% for data in sodiumData %} {{data.sodium}}, {% endfor %}],
+              backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+        //PROTEIN CHART
+        const protein = document.getElementById('protein').getContext('2d');
+        const protein1 = new Chart(protein, {
+          type: 'bar',
+          data: {
+            labels: [{% for data in proteinData %} '{{data.food}} {{data.measurement}}', {% endfor %}],
+            datasets: [{
+              label: "Today's Protein Intake",
+              data:  [{% for data in proteinData %} {{data.protein}}, {% endfor %}],
+              backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+        const potassium = document.getElementById('potassium').getContext('2d');
+        const potassium1 = new Chart(potassium, {
+          type: 'bar',
+          data: {
+            labels: [{% for data in potassiumData %} '{{data.food}} {{data.measurement}}', {% endfor %}],
+            datasets: [{
+              label: "Today's Potassium Intake",
+              data:  [{% for data in potassiumData %} {{data.k}}, {% endfor %}],
+              backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+        const phosphorus = document.getElementById('phosphorus').getContext('2d');
+        const phosphorus1 = new Chart(phosphorus, {
+          type: 'bar',
+          data: {
+            labels: [{% for data in phosphorusData %} '{{data.food}} {{data.measurement}}', {% endfor %}],
+            datasets: [{
+              label: "Today's Phosphorus Intake",
+              data:  [{% for data in phosphorusData %} {{data.phos}}, {% endfor %}],
+              backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+        
+        let progressBar = document.querySelector(".circular-progress");
+        let valueContainer = document.querySelector(".value-container");
+  
+        let progressValue = 0;
+        let progressEndValue = {{waterProgress}};
+        let speed = 15;
+  
+        let progress = setInterval(() => {
+          progressValue++;
+          valueContainer.textContent = `${progressValue}%`;
+          progressBar.style.background = `conic-gradient(
+              #4d5bf9 ${progressValue * 3.6}deg,
+              #cadcff ${progressValue * 3.6}deg
+          )`;
+          if (progressValue == progressEndValue) {
+            clearInterval(progress);
+          }
+        }, speed);
+
+      </script>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

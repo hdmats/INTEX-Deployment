@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Login</title>
+{% endblock %}
+
+{% block content %}
+<h1>Login</h1>
+<div style="margin-left:28rem; margin-right:28rem;">
+  <form class="login" name="form" action="{% url 'tracker' %}" method='GET'>
+    <label for="UserID">UserID</label>
+    <input id="UserID" name="UserID">
+    <button class="button" type='submit'>LOGIN</button>
+    <br>
+  </form>
+  <a class= "button" style="margin:1rem;" href="{% url 'createUser'%}">Create User</a>
+</div>
+<div class="factlog"></div>
+{% endblock %}
